@@ -1,0 +1,51 @@
+👑 ADMIN OPERATIONS GUIDE - Libas Inventory
+
+YOUR ADMIN POWERS:
+
+1. PRICE MANAGEMENT
+   - Only you can set purchase prices
+   - Only you can set selling prices
+   - You can edit staff entries and add prices
+
+2. BILL MANAGEMENT  
+   - Upload purchase bills for each date
+   - Multiple bills per date supported
+   - Bills are date-specific, not item-specific
+
+3. STAFF OVERSIGHT
+   - View all staff entries
+   - Edit/remove any entry
+   - Monitor daily stock additions
+
+4. DATA EXPORT
+   - Export all data to Excel
+   - Financial reporting
+   - Stock analysis
+
+DAILY WORKFLOW:
+
+1. REVIEW STAFF ENTRIES
+   - Login with password: libas123
+   - Click "LOAD STAFF ENTRIES"
+   - Review items added by staff
+   - Add purchase/selling prices
+
+2. UPLOAD BILLS
+   - Select the date of purchase
+   - Click "CAPTURE BILL" or "UPLOAD BILL"
+   - Upload all bills for that date
+
+3. FINANCIAL OVERVIEW
+   - Check "Stock Value" in statistics
+   - Monitor total inventory value
+   - Track staff productivity
+
+4. DATA BACKUP
+   - Regularly click "EXPORT EXCEL"
+   - Save the file to Google Drive/computer
+   - This is your backup system
+
+SECURITY:
+🔐 Only you know the admin password
+🔐 Staff cannot see financial data
+🔐 All data stored securely on devices

@@ -1,0 +1,42 @@
+📋 STAFF TRAINING GUIDE - Libas Inventory
+
+DAILY WORKFLOW:
+
+1. OPEN THE APP
+   - Open "Libas Inventory" from your phone/tablet
+   - Enter password: 456
+   - You'll see the staff dashboard
+
+2. ADD DAILY STOCK
+   - Select today's date
+   - Fill item details:
+     * Item Name: COTTON SHIRT (auto capitalizes)
+     * Quantity: 12
+     * Group: CLOTHING
+     * Description: Blue color, size M
+   - Take product photo using 📷 CAMERA
+   - Click "ADD NEW ITEM" for multiple products
+   - Click "SAVE ALL ENTRIES" when done
+
+3. WHAT STAFF CAN DO:
+   ✅ Add new stock items
+   ✅ Take product photos
+   ✅ View current inventory
+   ✅ See today's entries
+
+4. WHAT STAFF CANNOT DO:
+   ❌ See purchase prices
+   ❌ Upload bill images
+   ❌ Change existing prices
+   ❌ Access admin features
+
+IMPORTANT RULES:
+🔸 Always use UPPERCASE for item names
+🔸 Take clear product photos
+🔸 Save entries before closing
+🔸 Logout after work (click Logout button)
+
+NEED HELP?
+- If wrong photo: Click "REMOVE IMAGE" and retake
+- If wrong entry: Admin will fix it later
+- If app issues: Restart the app

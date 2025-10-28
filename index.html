@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Libas Inventory</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Particle Background -->
+    <div id="particles-js"></div>
+    
+    <!-- Login Container -->
+    <div class="login-container">
+        <div class="glass-card">
+            <!-- App Logo -->
+            <div class="logo">
+                <div class="logo-icon">🛍️</div>
+                <h1>Libas Inventory</h1>
+                <p>Manage your stock with style</p>
+            </div>
+
+            <!-- Login Form -->
+            <form class="login-form" id="loginForm">
+                <div class="input-group">
+                    <input type="password" id="password" placeholder="Enter password" required>
+                    <span class="input-icon">🔒</span>
+                </div>
+                
+                <button type="submit" class="login-btn">
+                    <span class="btn-text">Access Inventory</span>
+                    <div class="btn-loader"></div>
+                </button>
+
+                <div class="password-hint">
+                    <p>💡 <strong>Staff Password:</strong> 456</p>
+			<p><small>Admin: Contact owner for access</small></p>
+                </div>
+            </form>
+
+            <!-- Animated Background Elements -->
+            <div class="floating-elements">
+                <div class="float-item">📦</div>
+                <div class="float-item">👕</div>
+                <div class="float-item">👖</div>
+                <div class="float-item">🛒</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="script.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

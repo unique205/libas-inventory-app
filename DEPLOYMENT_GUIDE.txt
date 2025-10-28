@@ -1,0 +1,42 @@
+🎯 LIBAS INVENTORY SYSTEM - DEPLOYMENT GUIDE 🎯
+
+YOUR DEVICES:
+✅ Laptop
+✅ Tablet  
+✅ OnePlus Nord CE4
+✅ Samsung Mobiles (4 devices)
+✅ Motorola Mobiles (4 devices)
+
+HOW TO SETUP ON EACH DEVICE:
+
+STEP 1: Copy the Folder
+- Copy the entire "libas-inventory-app" folder to each device
+- You can use USB cable, Bluetooth, or file sharing apps
+
+STEP 2: Access the App
+- On each device, open the file manager
+- Navigate to "libas-inventory-app" folder
+- Double-click on "index.html" file
+- It will open in the device's web browser
+
+STEP 3: Bookmark for Easy Access
+- In the browser, click "Add to Home Screen" or "Bookmark"
+- This creates a quick shortcut like a real app
+
+STEP 4: Test Login
+- Staff Password: 456
+- Admin Password: libas123
+
+IMPORTANT NOTES:
+🔹 Works OFFLINE - No internet required after setup
+🔹 DATA SYNC - All devices share the same data automatically
+🔹 FREE FOREVER - No costs, no subscriptions
+🔹 SECURE - Only you and your staff can access
+
+TROUBLESHOOTING:
+❌ If camera doesn't work: Use "Upload from Gallery" instead
+❌ If page doesn't open: Make sure you're opening "index.html"
+❌ If data disappears: Data is stored in browser, clear cache carefully
+
+SUPPORT:
+This is a complete working system. For any issues, check this guide first.

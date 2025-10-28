@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Dashboard - Libas Inventory</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .dashboard {
+            background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
+            padding-bottom: 20px;
+        }
+        
+        .mobile-form-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 12px;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 15px;
+        }
+        
+        .form-card {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .form-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .card-number {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .mobile-form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+        
+        @media (min-width: 768px) {
+            .mobile-form-grid {
+                grid-template-columns: 2fr 1fr 1fr;
+            }
+        }
+        
+        .form-group-mobile {
+            margin-bottom: 8px;
+        }
+        
+        .form-group-mobile label {
+            font-size: 0.7rem;
+            margin-bottom: 4px;
+            display: block;
+            color: white;
+            opacity: 0.9;
+            font-weight: 600;
+        }
+        
+        .form-group-mobile input,
+        .form-group-mobile textarea {
+            width: 100%;
+            padding: 8px 10px;
+            border: none;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.95);
+            font-size: 0.8rem;
+            color: #333;
+        }
+        
+        .form-group-mobile textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+        
+        .form-group-mobile input:focus,
+        .form-group-mobile textarea:focus {
+            outline: 2px solid #00b894;
+            background: white;
+        }
+        
+        .image-section {
+            grid-column: 1 / -1;
+            margin-top: 8px;
+        }
+        
+        .image-actions-mobile {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .img-btn-mobile {
+            background: rgba(255, 255, 255, 0.25);
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+        
+        .img-btn-mobile:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: translateY(-1px);
+        }
+        
+        .img-btn-remove {
+            background: rgba(255, 107, 107, 0.7);
+        }
+        
+        .img-btn-remove:hover {
+            background: rgba(255, 107, 107, 0.9);
+        }
+        
+        .image-preview-mobile {
+            width: 60px;
+            height: 60px;
+            border-radius: 6px;
+            object-fit: cover;
+            display: none;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .preview-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        
+        .date-header-mobile {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .add-card-btn {
+            background: linear-gradient(135deg, #00b894, #00a085);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: bold;
+            width: 100%;
+            margin: 10px 0;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .add-card-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 184, 148, 0.4);
+        }
+        
+        .submit-section-mobile {
+            text-align: center;
+            margin-top: 15px;
+        }
+        
+        .submit-btn-mobile {
+            background: linear-gradient(135deg, #0984e3, #074b83);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        .submit-btn-mobile:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(9, 132, 227, 0.4);
+        }
+        
+        .stock-table-mobile {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            font-size: 0.75rem;
+        }
+        
+        .stock-table-mobile th {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 8px;
+            font-size: 0.7rem;
+        }
+        
+        .stock-table-mobile td {
+            padding: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            vertical-align: top;
+        }
+        
+        .stock-image-mobile {
+            width: 50px;
+            height: 50px;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+        
+        .auto-capitalize {
+            text-transform: uppercase;
+        }
+        
+        /* Mobile specific adjustments */
+        @media (max-width: 480px) {
+            .dashboard-content {
+                padding: 10px 8px;
+            }
+            
+            .mobile-form-container {
+                padding: 10px;
+            }
+            
+            .form-card {
+                padding: 10px;
+            }
+            
+            .image-actions-mobile {
+                flex-direction: column;
+            }
+            
+            .img-btn-mobile {
+                flex: none;
+            }
+            
+            .preview-container {
+                flex-direction: column;
+                align-items: start;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .entry-count {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div id="particles-js"></div>
+        
+        <!-- Header -->
+        <div class="dashboard-header">
+            <div class="nav-container">
+                <div class="logo-small">
+                    <span>🛍️</span>
+                    <span>Libas Inventory</span>
+                </div>
+                <div class="user-info">
+                    <span>Staff 👨‍💼</span>
+                    <button class="logout-btn" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="dashboard-content">
+            <!-- Welcome Message -->
+            <div class="welcome-message">
+                <h1>Daily Stock Entry</h1>
+                <p>Add items that arrived today</p>
+            </div>
+
+            <!-- Date Selection -->
+            <div class="data-section">
+                <h3 class="section-title">📅 Select Date</h3>
+                <div class="form-group">
+                    <input type="date" id="selectedDate" style="background: white; color: #333; padding: 10px; border-radius: 6px; border: none; width: 100%;">
+                </div>
+            </div>
+
+            <!-- Stock Entry Form -->
+            <div class="data-section active-section" id="stockEntry">
+                <h3 class="section-title">
+                    📦 Add Stock 
+                    <span class="entry-count" id="entryCount">0 items</span>
+                </h3>
+                
+                <div class="mobile-form-container">
+                    <div class="date-header-mobile" id="currentDateDisplay">
+                        Loading date...
+                    </div>
+                    
+                    <!-- Dynamic Cards Container -->
+                    <form id="stockForm">
+                        <div id="formCardsContainer">
+                            <!-- Cards will be added here dynamically -->
+                        </div>
+                        
+                        <button type="button" class="add-card-btn" onclick="addNewCard()">
+                            <span>➕</span>
+                            ADD NEW ITEM
+                        </button>
+                        
+                        <div class="submit-section-mobile">
+                            <button type="submit" class="submit-btn-mobile">
+                                💾 SAVE ALL ENTRIES
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Today's Entries Preview -->
+            <div class="data-section">
+                <h3 class="section-title">👀 Preview</h3>
+                <div class="data-table">
+                    <table class="stock-table-mobile">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Qty</th>
+                                <th>Group</th>
+                                <th>Image</th>
+                            </tr>
+                        </thead>
+                        <tbody id="previewTable">
+                            <tr>
+                                <td colspan="4" style="text-align: center; padding: 20px; opacity: 0.7;">
+                                    No entries yet
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden file inputs -->
+    <input type="file" id="cameraInput" accept="image/*" capture="camera" style="display: none;">
+    <input type="file" id="uploadInput" accept="image/*" style="display: none;">
+    
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="app.js"></script>
+    <script>
+        // Initialize Particles
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 20, density: { enable: true, value_area: 800 } },
+                color: { value: "#ffffff" },
+                shape: { type: "circle" },
+                opacity: { value: 0.3, random: true },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#ffffff",
+                    opacity: 0.2,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false
+                }
+            }
+        });
+
+        let currentImageCardId = null;
+        let cardCounter = 0;
+        
+        // Set today's date as default
+        document.getElementById('selectedDate').valueAsDate = new Date();
+        updateDateDisplay();
+        
+        // Add first card automatically
+        addNewCard();
+        
+        // Update date display when date changes
+        document.getElementById('selectedDate').addEventListener('change', function() {
+            updateDateDisplay();
+            clearPreview();
+        });
+        
+        function updateDateDisplay() {
+            const date = new Date(document.getElementById('selectedDate').value);
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('currentDateDisplay').textContent = 
+                date.toLocaleDateString('en-IN', options);
+        }
+        
+        function addNewCard() {
+            cardCounter++;
+            const cardId = 'card_' + cardCounter;
+            const cardNumber = cardCounter;
+            
+            const cardHTML = `
+                <div class="form-card" id="${cardId}">
+                    <div class="form-card-header">
+                        <div class="card-number">${cardNumber}</div>
+                        <button type="button" class="img-btn-mobile img-btn-remove" onclick="removeCard('${cardId}')">
+                            🗑️ Remove
+                        </button>
+                    </div>
+                    
+                    <div class="mobile-form-grid">
+                        <div class="form-group-mobile">
+                            <label>ITEM NAME *</label>
+                            <input type="text" placeholder="Enter item name" class="item-name auto-capitalize" required>
+                        </div>
+                        
+                        <div class="form-group-mobile">
+                            <label>QUANTITY *</label>
+                            <input type="number" placeholder="Qty" class="item-quantity" min="1" required>
+                        </div>
+                        
+                        <div class="form-group-mobile">
+                            <label>GROUP *</label>
+                            <input type="text" placeholder="Category" class="item-group auto-capitalize" required>
+                        </div>
+                        
+                        <div class="form-group-mobile image-section">
+                            <label>DESCRIPTION</label>
+                            <textarea placeholder="Item details, color, size, features..." class="item-description"></textarea>
+                        </div>
+                        
+                        <div class="form-group-mobile image-section">
+                            <label>PRODUCT IMAGE</label>
+                            <div class="image-actions-mobile">
+                                <button type="button" class="img-btn-mobile" onclick="openCamera('${cardId}')">
+                                    📷 CAMERA
+                                </button>
+                                <button type="button" class="img-btn-mobile" onclick="openGallery('${cardId}')">
+                                    📁 GALLERY
+                                </button>
+                            </div>
+                            
+                            <div class="preview-container">
+                                <img class="image-preview-mobile" id="preview_${cardId}" alt="Preview">
+                                <button type="button" class="img-btn-mobile img-btn-remove" onclick="removeImage('${cardId}')" style="display: none;" id="remove_${cardId}">
+                                    ❌ REMOVE IMAGE
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('formCardsContainer').insertAdjacentHTML('beforeend', cardHTML);
+            
+            // Auto-capitalize functionality
+            const nameInput = document.querySelector(`#${cardId} .item-name`);
+            const groupInput = document.querySelector(`#${cardId} .item-group`);
+            
+            nameInput.addEventListener('input', function(e) {
+                this.value = this.value.toUpperCase();
+                updatePreview();
+            });
+            
+            groupInput.addEventListener('input', function(e) {
+                this.value = this.value.toUpperCase();
+                updatePreview();
+            });
+            
+            // Add event listeners for real-time updates
+            const inputs = document.querySelectorAll(`#${cardId} input, #${cardId} textarea`);
+            inputs.forEach(input => {
+                input.addEventListener('input', updatePreview);
+            });
+            
+            updatePreview();
+        }
+        
+        function removeCard(cardId) {
+            const cards = document.querySelectorAll('.form-card');
+            
+            if (cards.length > 1) {
+                document.getElementById(cardId).remove();
+                renumberCards();
+                updatePreview();
+            } else {
+                alert("You need at least one item card!");
+            }
+        }
+        
+        function renumberCards() {
+            const cards = document.querySelectorAll('.form-card');
+            cards.forEach((card, index) => {
+                const cardNumber = card.querySelector('.card-number');
+                if (cardNumber) {
+                    cardNumber.textContent = index + 1;
+                }
+            });
+            cardCounter = cards.length;
+        }
+        
+        function openCamera(cardId) {
+            currentImageCardId = cardId;
+            // Trigger camera input
+            document.getElementById('cameraInput').click();
+        }
+        
+        function openGallery(cardId) {
+            currentImageCardId = cardId;
+            // Trigger gallery input
+            document.getElementById('uploadInput').click();
+        }
+        
+        // Handle camera capture
+        document.getElementById('cameraInput').addEventListener('change', function(e) {
+            if (e.target.files && e.target.files[0] && currentImageCardId) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    setImagePreview(currentImageCardId, e.target.result);
+                    alert("✅ Photo captured successfully!");
+                }
+                reader.readAsDataURL(e.target.files[0]);
+                this.value = '';
+            }
+        });
+        
+        // Handle gallery upload
+        document.getElementById('uploadInput').addEventListener('change', function(e) {
+            if (e.target.files && e.target.files[0] && currentImageCardId) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    setImagePreview(currentImageCardId, e.target.result);
+                    alert("✅ Image uploaded successfully!");
+                }
+                reader.readAsDataURL(e.target.files[0]);
+                this.value = '';
+            }
+        });
+        
+        function setImagePreview(cardId, imageUrl) {
+            const preview = document.getElementById('preview_' + cardId);
+            const removeBtn = document.getElementById('remove_' + cardId);
+            
+            preview.src = imageUrl;
+            preview.style.display = 'block';
+            removeBtn.style.display = 'block';
+            
+            const card = document.getElementById(cardId);
+            card.dataset.image = imageUrl;
+            
+            updatePreview();
+        }
+        
+        function removeImage(cardId) {
+            const preview = document.getElementById('preview_' + cardId);
+            const removeBtn = document.getElementById('remove_' + cardId);
+            
+            preview.style.display = 'none';
+            removeBtn.style.display = 'none';
+            
+            const card = document.getElementById(cardId);
+            delete card.dataset.image;
+            
+            updatePreview();
+        }
+        
+        function updatePreview() {
+            const cards = document.querySelectorAll('.form-card');
+            const previewTable = document.getElementById('previewTable');
+            const entryCount = document.getElementById('entryCount');
+            
+            let tableHTML = '';
+            let validEntries = 0;
+            
+            cards.forEach((card, index) => {
+                const name = card.querySelector('.item-name')?.value;
+                const quantity = card.querySelector('.item-quantity')?.value;
+                const group = card.querySelector('.item-group')?.value;
+                const description = card.querySelector('.item-description')?.value;
+                const image = card.dataset.image;
+                
+                if (name && quantity && group) {
+                    validEntries++;
+                    tableHTML += `
+                        <tr>
+                            <td><strong>${name}</strong><br><small>${group}</small></td>
+                            <td><strong>${quantity}</strong></td>
+                            <td>${group}</td>
+                            <td>${image ? '<img src="' + image + '" class="stock-image-mobile">' : '📷'}</td>
+                        </tr>
+                    `;
+                }
+            });
+            
+            // Update entry count
+            entryCount.textContent = validEntries + ' item' + (validEntries !== 1 ? 's' : '');
+            
+            if (validEntries === 0) {
+                tableHTML = `
+                    <tr>
+                        <td colspan="4" style="text-align: center; padding: 20px; opacity: 0.7;">
+                            No entries added yet
+                        </td>
+                    </tr>
+                `;
+            }
+            
+            previewTable.innerHTML = tableHTML;
+        }
+        
+        function clearPreview() {
+            document.getElementById('previewTable').innerHTML = `
+                <tr>
+                    <td colspan="4" style="text-align: center; padding: 20px; opacity: 0.7;">
+                        No entries for selected date
+                    </td>
+                </tr>
+            `;
+            document.getElementById('entryCount').textContent = '0 items';
+        }
+        
+        // Form submission
+        document.getElementById('stockForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const entries = [];
+            const cards = document.querySelectorAll('.form-card');
+            let validEntries = 0;
+            
+            cards.forEach((card, index) => {
+                const name = card.querySelector('.item-name')?.value;
+                const quantity = card.querySelector('.item-quantity')?.value;
+                const group = card.querySelector('.item-group')?.value;
+                const description = card.querySelector('.item-description')?.value;
+                const image = card.dataset.image;
+                
+                if (name && quantity && group) {
+                    validEntries++;
+                    entries.push({
+                        name: name.toUpperCase(),
+                        quantity: parseInt(quantity),
+                        group: group.toUpperCase(),
+                        description,
+                        image,
+                        date: document.getElementById('selectedDate').value
+                    });
+                }
+            });
+            
+            if (validEntries === 0) {
+                alert("❌ Please add at least one valid item!");
+                return;
+            }
+            
+            alert(`✅ ${validEntries} stock entries saved successfully!\n\nAdmin will review and add purchase prices.`);
+            
+            // Reset form but keep one card
+            document.getElementById('formCardsContainer').innerHTML = '';
+            cardCounter = 0;
+            addNewCard();
+            updatePreview();
+        });
+        
+        function logout() {
+            if(confirm('Are you sure you want to logout?')) {
+                // Clear session storage
+                sessionStorage.removeItem('currentUser');
+                // Redirect to login page
+                window.location.href = 'index.html';
+            }
+        }
+        
+        // Auto-capitalize all existing inputs
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('.auto-capitalize');
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    this.value = this.value.toUpperCase();
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Libas Inventory</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .dashboard {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding-bottom: 20px;
+        }
+        
+        .mobile-form-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 12px;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 15px;
+        }
+        
+        .form-card {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .form-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .card-number {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .mobile-form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+        
+        @media (min-width: 768px) {
+            .mobile-form-grid {
+                grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            }
+        }
+        
+        .form-group-mobile {
+            margin-bottom: 8px;
+        }
+        
+        .form-group-mobile label {
+            font-size: 0.7rem;
+            margin-bottom: 4px;
+            display: block;
+            color: white;
+            opacity: 0.9;
+            font-weight: 600;
+        }
+        
+        .form-group-mobile input,
+        .form-group-mobile textarea,
+        .form-group-mobile select {
+            width: 100%;
+            padding: 8px 10px;
+            border: none;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.95);
+            font-size: 0.8rem;
+            color: #333;
+        }
+        
+        .form-group-mobile textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+        
+        .form-group-mobile input:focus,
+        .form-group-mobile textarea:focus {
+            outline: 2px solid #667eea;
+            background: white;
+        }
+        
+        .image-section {
+            grid-column: 1 / -1;
+            margin-top: 8px;
+        }
+        
+        .image-actions-mobile {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .img-btn-mobile {
+            background: rgba(255, 255, 255, 0.25);
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+        
+        .img-btn-mobile:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: translateY(-1px);
+        }
+        
+        .img-btn-remove {
+            background: rgba(255, 107, 107, 0.7);
+        }
+        
+        .img-btn-remove:hover {
+            background: rgba(255, 107, 107, 0.9);
+        }
+        
+        .img-btn-edit {
+            background: rgba(255, 193, 7, 0.7);
+        }
+        
+        .img-btn-edit:hover {
+            background: rgba(255, 193, 7, 0.9);
+        }
+        
+        .image-preview-mobile {
+            width: 60px;
+            height: 60px;
+            border-radius: 6px;
+            object-fit: cover;
+            display: none;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .bill-preview-mobile {
+            width: 80px;
+            height: 60px;
+            border-radius: 6px;
+            object-fit: cover;
+            display: none;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .preview-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        
+        .date-header-mobile {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .add-card-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: bold;
+            width: 100%;
+            margin: 10px 0;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .add-card-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .submit-section-mobile {
+            text-align: center;
+            margin-top: 15px;
+        }
+        
+        .submit-btn-mobile {
+            background: linear-gradient(135deg, #0984e3, #074b83);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        .submit-btn-mobile:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(9, 132, 227, 0.4);
+        }
+        
+        .stock-table-mobile {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            font-size: 0.75rem;
+        }
+        
+        .stock-table-mobile th {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 8px;
+            font-size: 0.7rem;
+        }
+        
+        .stock-table-mobile td {
+            padding: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            vertical-align: top;
+        }
+        
+        .stock-image-mobile {
+            width: 50px;
+            height: 50px;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+        
+        .auto-capitalize {
+            text-transform: uppercase;
+        }
+        
+        .admin-badge {
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            color: black;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+        
+        .price-input {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            font-weight: bold;
+        }
+        
+        /* Bill Section Styles */
+        .bill-section {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+        }
+        
+        .bill-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .bill-preview-item {
+            position: relative;
+            text-align: center;
+        }
+        
+        .bill-preview-img {
+            width: 80px;
+            height: 60px;
+            border-radius: 6px;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .bill-remove-btn {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: rgba(255, 107, 107, 0.9);
+            border: none;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.6rem;
+            cursor: pointer;
+        }
+        
+        /* Mobile specific adjustments */
+        @media (max-width: 480px) {
+            .dashboard-content {
+                padding: 10px 8px;
+            }
+            
+            .mobile-form-container {
+                padding: 10px;
+            }
+            
+            .form-card {
+                padding: 10px;
+            }
+            
+            .image-actions-mobile {
+                flex-direction: column;
+            }
+            
+            .img-btn-mobile {
+                flex: none;
+            }
+            
+            .preview-container {
+                flex-direction: column;
+                align-items: start;
+            }
+            
+            .bill-preview-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .entry-count {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            margin-left: 8px;
+        }
+        
+        .admin-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .admin-action-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            flex: 1;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+        
+        .admin-action-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+        
+        .bill-count {
+            background: rgba(255, 193, 7, 0.3);
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            margin-left: 8px;
+        }
+        
+        .staff-badge {
+            background: rgba(0, 184, 148, 0.7);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.6rem;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div id="particles-js"></div>
+        
+        <!-- Header -->
+        <div class="dashboard-header">
+            <div class="nav-container">
+                <div class="logo-small">
+                    <span>🛍️</span>
+                    <span>Libas Inventory</span>
+                    <span class="admin-badge">ADMIN</span>
+                </div>
+                <div class="user-info">
+                    <span>Welcome, Admin! 👑</span>
+                    <button class="logout-btn" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="dashboard-content">
+            <!-- Welcome Message -->
+            <div class="welcome-message">
+                <h1>Admin Dashboard</h1>
+                <p>Complete control over inventory and pricing</p>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📦</div>
+                    <div class="stat-value" id="totalProducts">0</div>
+                    <div class="stat-label">Total Products</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-value" id="totalValue">₹0</div>
+                    <div class="stat-label">Stock Value</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">👨‍💼</div>
+                    <div class="stat-value" id="staffEntries">0</div>
+                    <div class="stat-label">Staff Entries</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🧾</div>
+                    <div class="stat-value" id="totalBills">0</div>
+                    <div class="stat-label">Bills</div>
+                </div>
+            </div>
+
+            <!-- Date Selection -->
+            <div class="data-section">
+                <h3 class="section-title">📅 Select Date</h3>
+                <div class="form-group">
+                    <input type="date" id="selectedDate" style="background: white; color: #333; padding: 10px; border-radius: 6px; border: none; width: 100%;">
+                </div>
+            </div>
+
+            <!-- Bill Upload Section (Date Specific) -->
+            <div class="data-section">
+                <h3 class="section-title">
+                    🧾 Purchase Bills for This Date
+                    <span class="bill-count" id="billCount">0 bills</span>
+                </h3>
+                
+                <div class="bill-section">
+                    <div class="date-header-mobile" id="currentDateDisplay">
+                        Loading date...
+                    </div>
+                    
+                    <div class="image-actions-mobile">
+                        <button type="button" class="img-btn-mobile img-btn-edit" onclick="uploadBill()">
+                            📷 CAPTURE BILL
+                        </button>
+                        <button type="button" class="img-btn-mobile img-btn-edit" onclick="uploadBillGallery()">
+                            📁 UPLOAD BILL
+                        </button>
+                    </div>
+                    
+                    <div class="bill-preview-grid" id="billPreviewsContainer">
+                        <!-- Bill previews will appear here -->
+                        <div style="text-align: center; color: rgba(255,255,255,0.7); font-size: 0.8rem; grid-column: 1 / -1;">
+                            No bills uploaded for this date
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Stock Management -->
+            <div class="data-section active-section" id="stockManagement">
+                <h3 class="section-title">
+                    🛡️ Manage Stock & Pricing
+                    <span class="entry-count" id="entryCount">0 items</span>
+                </h3>
+                
+                <div class="mobile-form-container">
+                    <!-- Admin Actions -->
+                    <div class="admin-actions">
+                        <button type="button" class="admin-action-btn" onclick="addNewCard()">➕ ADD ITEM</button>
+                        <button type="button" class="admin-action-btn" onclick="loadStaffEntries()">📥 LOAD STAFF ENTRIES</button>
+                        <button type="button" class="admin-action-btn" onclick="loadAllEntries()">🔄 LOAD ALL ENTRIES</button>
+                        <button type="button" class="admin-action-btn" onclick="exportToExcel()">📊 EXPORT EXCEL</button>
+                    </div>
+                    
+                    <!-- Dynamic Cards Container -->
+                    <form id="stockForm">
+                        <div id="formCardsContainer">
+                            <!-- Cards will be added here dynamically -->
+                        </div>
+                        
+                        <div class="submit-section-mobile">
+                            <button type="submit" class="submit-btn-mobile">
+                                💾 SAVE ALL CHANGES
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Stock Overview -->
+            <div class="data-section">
+                <h3 class="section-title">👀 Stock Overview</h3>
+                <div class="data-table">
+                    <table class="stock-table-mobile">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Purchase</th>
+                                <th>Selling</th>
+                                <th>Stock</th>
+                                <th>Added By</th>
+                            </tr>
+                        </thead>
+                        <tbody id="previewTable">
+                            <tr>
+                                <td colspan="5" style="text-align: center; padding: 20px; opacity: 0.7;">
+                                    No entries yet
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden file inputs -->
+    <input type="file" id="cameraInput" accept="image/*" capture="camera" style="display: none;">
+    <input type="file" id="uploadInput" accept="image/*" style="display: none;">
+    <input type="file" id="billCameraInput" accept="image/*" capture="camera" style="display: none;">
+    <input type="file" id="billUploadInput" accept="image/*" style="display: none;">
+    
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="data-manager.js"></script>
+    <script src="app.js"></script>
+    <script>
+        // Initialize Particles
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 20, density: { enable: true, value_area: 800 } },
+                color: { value: "#ffffff" },
+                shape: { type: "circle" },
+                opacity: { value: 0.3, random: true },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#ffffff",
+                    opacity: 0.2,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false
+                }
+            }
+        });
+
+        let currentImageCardId = null;
+        let cardCounter = 0;
+        let billCounter = 0;
+        let currentBills = [];
+        
+        // Set today's date as default
+        document.getElementById('selectedDate').valueAsDate = new Date();
+        updateDateDisplay();
+        updateStats();
+        
+        // Add first card automatically
+        addNewCard();
+        
+        // Update date display when date changes
+        document.getElementById('selectedDate').addEventListener('change', function() {
+            updateDateDisplay();
+            clearPreview();
+            loadBillsForDate();
+            updateStats();
+        });
+        
+        function updateDateDisplay() {
+            const date = new Date(document.getElementById('selectedDate').value);
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('currentDateDisplay').textContent = 
+                'Bills for: ' + date.toLocaleDateString('en-IN', options);
+        }
+        
+        function updateStats() {
+            if (!window.dataManager) return;
+            
+            const data = window.dataManager.loadData();
+            const allEntries = data.stockEntries || [];
+            const staffEntries = allEntries.filter(entry => entry.addedBy === 'staff');
+            const totalValue = allEntries.reduce((sum, entry) => {
+                return sum + (parseFloat(entry.purchasePrice) || 0) * (parseInt(entry.quantity) || 0);
+            }, 0);
+            
+            document.getElementById('totalProducts').textContent = allEntries.length;
+            document.getElementById('staffEntries').textContent = staffEntries.length;
+            document.getElementById('totalValue').textContent = '₹' + totalValue.toFixed(2);
+            document.getElementById('totalBills').textContent = (data.bills || []).length;
+        }
+        
+        function loadBillsForDate() {
+            // In real app, this would load bills for selected date from storage
+            currentBills = []; // Reset for new date
+            updateBillPreviews();
+        }
+        
+        function addNewCard() {
+            cardCounter++;
+            const cardId = 'card_' + cardCounter;
+            const cardNumber = cardCounter;
+            
+            const cardHTML = `
+                <div class="form-card" id="${cardId}">
+                    <div class="form-card-header">
+                        <div class="card-number">${cardNumber}</div>
+                        <button type="button" class="img-btn-mobile img-btn-remove" onclick="removeCard('${cardId}')">
+                            🗑️ Remove
+                        </button>
+                    </div>
+                    
+                    <div class="mobile-form-grid">
+                        <div class="form-group-mobile">
+                            <label>ITEM NAME *</label>
+                            <input type="text" placeholder="Enter item name" class="item-name auto-capitalize" required>
+                        </div>
+                        
+                        <div class="form-group-mobile">
+                            <label>QUANTITY *</label>
+                            <input type="number" placeholder="Qty" class="item-quantity" min="1" required>
+                        </div>
+                        
+                        <div class="form-group-mobile">
+                            <label>GROUP *</label>
+                            <input type="text" placeholder="Category" class="item-group auto-capitalize" required>
+                        </div>
+                        
+                        <div class="form-group-mobile">
+                            <label>PURCHASE PRICE (₹) *</label>
+                            <input type="number" placeholder="0.00" class="purchase-price price-input" step="0.01" required>
+                        </div>
+                        
+                        <div class="form-group-mobile">
+                            <label>SELLING PRICE (₹) *</label>
+                            <input type="number" placeholder="0.00" class="selling-price price-input" step="0.01" required>
+                        </div>
+                        
+                        <div class="form-group-mobile image-section">
+                            <label>DESCRIPTION</label>
+                            <textarea placeholder="Item details, color, size, features..." class="item-description"></textarea>
+                        </div>
+                        
+                        <div class="form-group-mobile image-section">
+                            <label>PRODUCT IMAGE</label>
+                            <div class="image-actions-mobile">
+                                <button type="button" class="img-btn-mobile" onclick="openCamera('${cardId}')">
+                                    📷 CAMERA
+                                </button>
+                                <button type="button" class="img-btn-mobile" onclick="openGallery('${cardId}')">
+                                    📁 GALLERY
+                                </button>
+                            </div>
+                            
+                            <div class="preview-container">
+                                <img class="image-preview-mobile" id="preview_${cardId}" alt="Preview">
+                                <button type="button" class="img-btn-mobile img-btn-remove" onclick="removeImage('${cardId}')" style="display: none;" id="remove_${cardId}">
+                                    ❌ REMOVE
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('formCardsContainer').insertAdjacentHTML('beforeend', cardHTML);
+            
+            // Auto-capitalize functionality
+            const nameInput = document.querySelector(`#${cardId} .item-name`);
+            const groupInput = document.querySelector(`#${cardId} .item-group`);
+            
+            nameInput.addEventListener('input', function(e) {
+                this.value = this.value.toUpperCase();
+                updatePreview();
+            });
+            
+            groupInput.addEventListener('input', function(e) {
+                this.value = this.value.toUpperCase();
+                updatePreview();
+            });
+            
+            // Add event listeners for real-time updates
+            const inputs = document.querySelectorAll(`#${cardId} input, #${cardId} textarea`);
+            inputs.forEach(input => {
+                input.addEventListener('input', updatePreview);
+            });
+            
+            updatePreview();
+        }
+        
+        function removeCard(cardId) {
+            const cards = document.querySelectorAll('.form-card');
+            
+            if (cards.length > 1) {
+                document.getElementById(cardId).remove();
+                renumberCards();
+                updatePreview();
+            } else {
+                alert("You need at least one item card!");
+            }
+        }
+        
+        function renumberCards() {
+            const cards = document.querySelectorAll('.form-card');
+            cards.forEach((card, index) => {
+                const cardNumber = card.querySelector('.card-number');
+                if (cardNumber) {
+                    cardNumber.textContent = index + 1;
+                }
+            });
+            cardCounter = cards.length;
+        }
+        
+        // Product Image Functions
+        function openCamera(cardId) {
+            currentImageCardId = cardId;
+            document.getElementById('cameraInput').click();
+        }
+        
+        function openGallery(cardId) {
+            currentImageCardId = cardId;
+            document.getElementById('uploadInput').click();
+        }
+        
+        // Bill Upload Functions
+        function uploadBill() {
+            document.getElementById('billCameraInput').click();
+        }
+        
+        function uploadBillGallery() {
+            document.getElementById('billUploadInput').click();
+        }
+        
+        // Handle product camera capture
+        document.getElementById('cameraInput').addEventListener('change', function(e) {
+            if (e.target.files && e.target.files[0] && currentImageCardId) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    setImagePreview(currentImageCardId, e.target.result);
+                    alert("✅ Product photo captured successfully!");
+                }
+                reader.readAsDataURL(e.target.files[0]);
+                this.value = '';
+            }
+        });
+        
+        // Handle product gallery upload
+        document.getElementById('uploadInput').addEventListener('change', function(e) {
+            if (e.target.files && e.target.files[0] && currentImageCardId) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    setImagePreview(currentImageCardId, e.target.result);
+                    alert("✅ Product image uploaded successfully!");
+                }
+                reader.readAsDataURL(e.target.files[0]);
+                this.value = '';
+            }
+        });
+        
+        // Handle bill camera capture
+        document.getElementById('billCameraInput').addEventListener('change', function(e) {
+            if (e.target.files && e.target.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    addBill(e.target.result);
+                    alert("✅ Bill captured successfully!");
+                }
+                reader.readAsDataURL(e.target.files[0]);
+                this.value = '';
+            }
+        });
+        
+        // Handle bill gallery upload
+        document.getElementById('billUploadInput').addEventListener('change', function(e) {
+            if (e.target.files && e.target.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    addBill(e.target.result);
+                    alert("✅ Bill uploaded successfully!");
+                }
+                reader.readAsDataURL(e.target.files[0]);
+                this.value = '';
+            }
+        });
+        
+        function addBill(imageUrl) {
+            billCounter++;
+            const billId = 'bill_' + billCounter;
+            currentBills.push({
+                id: billId,
+                url: imageUrl,
+                date: document.getElementById('selectedDate').value
+            });
+            updateBillPreviews();
+        }
+        
+        function removeBill(billId) {
+            currentBills = currentBills.filter(bill => bill.id !== billId);
+            updateBillPreviews();
+        }
+        
+        function updateBillPreviews() {
+            const container = document.getElementById('billPreviewsContainer');
+            const billCount = document.getElementById('billCount');
+            
+            billCount.textContent = currentBills.length + ' bill' + (currentBills.length !== 1 ? 's' : '');
+            
+            if (currentBills.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; color: rgba(255,255,255,0.7); font-size: 0.8rem; grid-column: 1 / -1;">
+                        No bills uploaded for this date
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = currentBills.map(bill => `
+                <div class="bill-preview-item">
+                    <img src="${bill.url}" class="bill-preview-img" alt="Bill">
+                    <button class="bill-remove-btn" onclick="removeBill('${bill.id}')">×</button>
+                </div>
+            `).join('');
+        }
+        
+        function setImagePreview(cardId, imageUrl) {
+            const preview = document.getElementById('preview_' + cardId);
+            const removeBtn = document.getElementById('remove_' + cardId);
+            
+            preview.src = imageUrl;
+            preview.style.display = 'block';
+            removeBtn.style.display = 'block';
+            
+            const card = document.getElementById(cardId);
+            card.dataset.image = imageUrl;
+            
+            updatePreview();
+        }
+        
+        function removeImage(cardId) {
+            const preview = document.getElementById('preview_' + cardId);
+            const removeBtn = document.getElementById('remove_' + cardId);
+            
+            preview.style.display = 'none';
+            removeBtn.style.display = 'none';
+            
+            const card = document.getElementById(cardId);
+            delete card.dataset.image;
+            
+            updatePreview();
+        }
+        
+        // STAFF ENTRIES MANAGEMENT
+        function loadStaffEntries() {
+            if (!window.dataManager) {
+                alert("❌ Data manager not loaded yet. Please wait a moment and try again.");
+                return;
+            }
+            
+            const data = window.dataManager.loadData();
+            const staffEntries = data.stockEntries.filter(entry => entry.addedBy === 'staff');
+            
+            if (staffEntries.length === 0) {
+                alert("📭 No staff entries found. Staff entries will appear here when staff adds stock.");
+                return;
+            }
+            
+            // Clear current cards
+            document.getElementById('formCardsContainer').innerHTML = '';
+            cardCounter = 0;
+            
+            // Add staff entries as editable cards
+            staffEntries.forEach((entry, index) => {
+                cardCounter++;
+                const cardId = 'staff_entry_' + entry.id;
+                
+                const cardHTML = `
+                    <div class="form-card" id="${cardId}" data-entry-id="${entry.id}">
+                        <div class="form-card-header">
+                            <div class="card-number">${index + 1}</div>
+                            <div style="color: white; font-size: 0.7rem; background: rgba(0, 184, 148, 0.5); padding: 4px 8px; border-radius: 4px;">
+                                STAFF ENTRY
+                            </div>
+                            <button type="button" class="img-btn-mobile img-btn-remove" onclick="removeStaffEntry('${entry.id}', '${cardId}')">
+                                🗑️ Remove
+                            </button>
+                        </div>
+                        
+                        <div class="mobile-form-grid">
+                            <div class="form-group-mobile">
+                                <label>ITEM NAME *</label>
+                                <input type="text" value="${entry.name || ''}" class="item-name auto-capitalize" required>
+                            </div>
+                            
+                            <div class="form-group-mobile">
+                                <label>QUANTITY *</label>
+                                <input type="number" value="${entry.quantity || ''}" class="item-quantity" min="1" required>
+                            </div>
+                            
+                            <div class="form-group-mobile">
+                                <label>GROUP *</label>
+                                <input type="text" value="${entry.group || ''}" class="item-group auto-capitalize" required>
+                            </div>
+                            
+                            <div class="form-group-mobile">
+                                <label>PURCHASE PRICE (₹) *</label>
+                                <input type="number" value="${entry.purchasePrice || ''}" placeholder="0.00" class="purchase-price price-input" step="0.01" required>
+                            </div>
+                            
+                            <div class="form-group-mobile">
+                                <label>SELLING PRICE (₹) *</label>
+                                <input type="number" value="${entry.sellingPrice || ''}" placeholder="0.00" class="selling-price price-input" step="0.01" required>
+                            </div>
+                            
+                            <div class="form-group-mobile image-section">
+                                <label>DESCRIPTION</label>
+                                <textarea class="item-description">${entry.description || ''}</textarea>
+                            </div>
+                            
+                            ${entry.image ? `
+                            <div class="form-group-mobile image-section">
+                                <label>PRODUCT IMAGE (From Staff)</label>
+                                <div class="preview-container">
+                                    <img src="${entry.image}" class="image-preview-mobile" style="display: block;">
+                                </div>
+                            </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('formCardsContainer').insertAdjacentHTML('beforeend', cardHTML);
+                
+                // Add auto-capitalize functionality
+                const nameInput = document.querySelector(`#${cardId} .item-name`);
+                const groupInput = document.querySelector(`#${cardId} .item-group`);
+                
+                nameInput.addEventListener('input', function(e) {
+                    this.value = this.value.toUpperCase();
+                    updatePreview();
+                });
+                
+                groupInput.addEventListener('input', function(e) {
+                    this.value = this.value.toUpperCase();
+                    updatePreview();
+                });
+                
+                // Add event listeners
+                const inputs = document.querySelectorAll(`#${cardId} input, #${cardId} textarea`);
+                inputs.forEach(input => {
+                    input.addEventListener('input', updatePreview);
+                });
+            });
+            
+            // Add one empty card at the end for new entries
+            addNewCard();
+            
+            alert(`✅ Loaded ${staffEntries.length} staff entries. You can now edit prices and save changes.`);
+        }
+        
+        function loadAllEntries() {
+            if (!window.dataManager) {
+                alert("❌ Data manager not loaded yet.");
+                return;
+            }
+            
+            const data = window.dataManager.loadData();
+            const allEntries = data.stockEntries;
+            
+            if (allEntries.length === 0) {
+                alert("📭 No entries found in the system.");
+                return;
+            }
+            
+            // Clear current cards
+            document.getElementById('formCardsContainer').innerHTML = '';
+            cardCounter = 0;
+            
+            // Add all entries as editable cards
+            allEntries.forEach((entry, index) => {
+                cardCounter++;
+                const cardId = 'entry_' + entry.id;
+                const isStaffEntry = entry.addedBy === 'staff';
+                
+                const cardHTML = `
+                    <div class="form-card" id="${cardId}" data-entry-id="${entry.id}">
+                        <div class="form-card-header">
+                            <div class="card-number">${index + 1}</div>
+                            ${isStaffEntry ? 
+                                '<div style="color: white; font-size: 0.7rem; background: rgba(0, 184, 148, 0.5); padding: 4px 8px; border-radius: 4px;">STAFF</div>' : 
+                                '<div style="color: white; font-size: 0.7rem; background: rgba(102, 126, 234, 0.5); padding: 4px 8px; border-radius: 4px;">ADMIN</div>'
+                            }
+                            <button type="button" class="img-btn-mobile img-btn-remove" onclick="removeEntry('${entry.id}', '${cardId}')">
+                                🗑️ Remove
+                            </button>
+                        </div>
+                        
+                        <div class="mobile-form-grid">
+                            <div class="form-group-mobile">
+                                <label>ITEM NAME *</label>
+                                <input type="text" value="${entry.name || ''}" class="item-name auto-capitalize" required>
+                            </div>
+                            
+                            <div class="form-group-mobile">
+                                <label>QUANTITY *</label>
+                                <input type="number" value="${entry.quantity || ''}" class="item-quantity" min="1" required>
+                            </div>
+                            
+                            <div class="form-group-mobile">
+                                <label>GROUP *</label>
+                                <input type="text" value="${entry.group || ''}" class="item-group auto-capitalize" required>
+                            </div>
+                            
+                            <div class="form-group-mobile">
+                                <label>PURCHASE PRICE (₹) *</label>
+                                <input type="number" value="${entry.purchasePrice || ''}" placeholder="0.00" class="purchase-price price-input" step="0.01" required>
+                            </div>
+                            
+                            <div class="form-group-mobile">
+                                <label>SELLING PRICE (₹) *</label>
+                                <input type="number" value="${entry.sellingPrice || ''}" placeholder="0.00" class="selling-price price-input" step="0.01" required>
+                            </div>
+                            
+                            <div class="form-group-mobile image-section">
+                                <label>DESCRIPTION</label>
+                                <textarea class="item-description">${entry.description || ''}</textarea>
+                            </div>
+                            
+                            ${entry.image ? `
+                            <div class="form-group-mobile image-section">
+                                <label>PRODUCT IMAGE</label>
+                                <div class="preview-container">
+                                    <img src="${entry.image}" class="image-preview-mobile" style="display: block;">
+                                </div>
+                            </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('formCardsContainer').insertAdjacentHTML('beforeend', cardHTML);
+                
+                // Add auto-capitalize functionality
+                const nameInput = document.querySelector(`#${cardId} .item-name`);
+                const groupInput = document.querySelector(`#${cardId} .item-group`);
+                
+                nameInput.addEventListener('input', function(e) {
+                    this.value = this.value.toUpperCase();
+                    updatePreview();
+                });
+                
+                groupInput.addEventListener('input', function(e) {
+                    this.value = this.value.toUpperCase();
+                    updatePreview();
+                });
+                
+                // Add event listeners
+                const inputs = document.querySelectorAll(`#${cardId} input, #${cardId} textarea`);
+                inputs.forEach(input => {
+                    input.addEventListener('input', updatePreview);
+                });
+            });
+            
+            // Add one empty card at the end for new entries
+            addNewCard();
+            
+            alert(`✅ Loaded ${allEntries.length} total entries (${allEntries.filter(e => e.addedBy === 'staff').length} staff, ${allEntries.filter(e => e.addedBy === 'admin').length} admin).`);
+        }
+        
+        function removeStaffEntry(entryId, cardId) {
+            if (!confirm('Are you sure you want to remove this staff entry?')) {
+                return;
+            }
+            
+            if (!window.dataManager) {
+                alert("❌ Data manager not loaded.");
+                return;
+            }
+            
+            const data = window.dataManager.loadData();
+            data.stockEntries = data.stockEntries.filter(entry => entry.id !== entryId);
+            
+            if (window.dataManager.saveData(data)) {
+                document.getElementById(cardId).remove();
+                renumberCards();
+                updatePreview();
+                updateStats();
+                alert("✅ Staff entry removed successfully!");
+            } else {
+                alert("❌ Failed to remove staff entry.");
+            }
+        }
+        
+        function removeEntry(entryId, cardId) {
+            if (!confirm('Are you sure you want to remove this entry?')) {
+                return;
+            }
+            
+            if (!window.dataManager) {
+                alert("❌ Data manager not loaded.");
+                return;
+            }
+            
+            const data = window.dataManager.loadData();
+            data.stockEntries = data.stockEntries.filter(entry => entry.id !== entryId);
+            
+            if (window.dataManager.saveData(data)) {
+                document.getElementById(cardId).remove();
+                renumberCards();
+                updatePreview();
+                updateStats();
+                alert("✅ Entry removed successfully!");
+            } else {
+                alert("❌ Failed to remove entry.");
+            }
+        }
+        
+        function updatePreview() {
+            const cards = document.querySelectorAll('.form-card');
+            const previewTable = document.getElementById('previewTable');
+            const entryCount = document.getElementById('entryCount');
+            
+            let tableHTML = '';
+            let validEntries = 0;
+            let totalValue = 0;
+            
+            cards.forEach((card, index) {
+                const name = card.querySelector('.item-name')?.value;
+                const quantity = card.querySelector('.item-quantity')?.value;
+                const group = card.querySelector('.item-group')?.value;
+                const purchasePrice = card.querySelector('.purchase-price')?.value;
+                const sellingPrice = card.querySelector('.selling-price')?.value;
+                const description = card.querySelector('.item-description')?.value;
+                const image = card.dataset.image;
+                const entryId = card.dataset.entryId;
+                const isStaffEntry = card.id.includes('staff_entry');
+                
+                if (name && quantity && group && purchasePrice && sellingPrice) {
+                    validEntries++;
+                    const itemValue = parseFloat(purchasePrice) * parseInt(quantity);
+                    totalValue += itemValue;
+                    
+                    tableHTML += `
+                        <tr>
+                            <td><strong>${name}</strong><br><small>${group}</small></td>
+                            <td>₹${purchasePrice}</td>
+                            <td>₹${sellingPrice}</td>
+                            <td><strong>${quantity}</strong></td>
+                            <td>${isStaffEntry ? '<span class="staff-badge">STAFF</span>' : '<span style="color: #667eea;">ADMIN</span>'}</td>
+                        </tr>
+                    `;
+                }
+            });
+            
+            // Update entry count and stats
+            entryCount.textContent = validEntries + ' item' + (validEntries !== 1 ? 's' : '');
+            
+            if (validEntries === 0) {
+                tableHTML = `
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 20px; opacity: 0.7;">
+                            No entries added yet
+                        </td>
+                    </tr>
+                `;
+            }
+            
+            previewTable.innerHTML = tableHTML;
+        }
+        
+        function clearPreview() {
+            document.getElementById('previewTable').innerHTML = `
+                <tr>
+                    <td colspan="5" style="text-align: center; padding: 20px; opacity: 0.7;">
+                        No entries for selected date
+                    </td>
+                </tr>
+            `;
+            document.getElementById('entryCount').textContent = '0 items';
+        }
+        
+        // Admin functions
+        function exportToExcel() {
+            if (!window.dataManager) {
+                alert("❌ Data manager not loaded.");
+                return;
+            }
+            window.dataManager.exportToExcel();
+            alert("📊 Data exported successfully!");
+        }
+        
+        // Form submission
+        document.getElementById('stockForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const entries = [];
+            const cards = document.querySelectorAll('.form-card');
+            let validEntries = 0;
+            
+            cards.forEach((card, index) => {
+                const name = card.querySelector('.item-name')?.value;
+                const quantity = card.querySelector('.item-quantity')?.value;
+                const group = card.querySelector('.item-group')?.value;
+                const purchasePrice = card.querySelector('.purchase-price')?.value;
+                const sellingPrice = card.querySelector('.selling-price')?.value;
+                const description = card.querySelector('.item-description')?.value;
+                const image = card.dataset.image;
+                const entryId = card.dataset.entryId;
+                
+                if (name && quantity && group && purchasePrice && sellingPrice) {
+                    validEntries++;
+                    
+                    const entryData = {
+                        name: name.toUpperCase(),
+                        quantity: parseInt(quantity),
+                        group: group.toUpperCase(),
+                        purchasePrice: parseFloat(purchasePrice),
+                        sellingPrice: parseFloat(sellingPrice),
+                        description,
+                        image,
+                        bills: currentBills,
+                        date: document.getElementById('selectedDate').value,
+                        addedBy: 'admin'
+                    };
+                    
+                    if (entryId) {
+                        // Update existing entry
+                        if (window.dataManager && window.dataManager.updateStockEntry) {
+                            window.dataManager.updateStockEntry(entryId, entryData);
+                        }
+                    } else {
+                        // Add new entry
+                        entries.push(entryData);
+                    }
+                }
+            });
+            
+            // Save new entries
+            if (entries.length > 0 && window.dataManager) {
+                entries.forEach(entry => {
+                    window.dataManager.addStockEntry(entry);
+                });
+            }
+            
+            if (validEntries === 0) {
+                alert("❌ Please add at least one valid item!");
+                return;
+            }
+            
+            alert(`✅ ${validEntries} entries processed successfully!\n\n${currentBills.length} bills attached for this date.`);
+            
+            // Reset form but keep one card
+            document.getElementById('formCardsContainer').innerHTML = '';
+            cardCounter = 0;
+            addNewCard();
+            updatePreview();
+            updateStats();
+        });
+        
+        function logout() {
+            if(confirm('Are you sure you want to logout?')) {
+                // Clear session storage
+                sessionStorage.removeItem('currentUser');
+                // Redirect to login page
+                window.location.href = 'index.html';
+            }
+        }
+        
+        // Auto-capitalize all existing inputs
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('.auto-capitalize');
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    this.value = this.value.toUpperCase();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
