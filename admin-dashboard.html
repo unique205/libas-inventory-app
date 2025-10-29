@@ -891,7 +891,7 @@
         });
 
           // 🔗 PASTE API URL RIGHT HERE - after particles initialization
-    const API_URL = "https://script.google.com/macros/s/AKfycbzrrws1AJUfNbfiBYwET8cLJwFVGNB8egnCkAJvYIjxZxtfDPbSAi0bE0Fb-duyPwPe/exec";
+    const API_URL = "https://script.google.com/macros/s/AKfycbycEmSQZRAZ_nmRmtp9fEWwNCIwkcGzApOiZEb92ewWY43qs963b5BpPnE756egyCKw/exec";
 
         async function fetchDataFromSheet() {
         try {
@@ -1201,18 +1201,18 @@
             }
             
             let tableHTML = '';
-                        filteredItems.forEach(item => {
-                const stockStatus = item.stock === 0 ? 'Out of Stock' : 
-                                  item.stock < 10 ? 'Low Stock' : 'In Stock';
-                const statusClass = item.stock === 0 ? 'status-rejected' : 
-                                  item.stock < 10 ? 'status-pending' : 'status-approved';
+            filteredItems.forEach(item => {
+                const stockStatus = item.quantity === 0 ? 'Out of Stock' : 
+                                  item.quantity < 10 ? 'Low Stock' : 'In Stock';
+                const statusClass = item.quantity === 0 ? 'status-rejected' : 
+                                  item.quantity < 10 ? 'status-pending' : 'status-approved';
                 
                 tableHTML += `
                     <tr>
                         <td>${item.id}</td>
                         <td>${item.name}</td>
-                        <td>${item.category}</td>
-                        <td>${item.stock} <span class="status-badge ${statusClass}">${stockStatus}</span></td>
+                        <td>${item.group}</td>
+                        <td>${item.quantity} <span class="status-badge ${statusClass}">${stockStatus}</span></td>
                         <td>₹${item.purchasePrice || '0'}</td>
                         <td>₹${item.sellingPrice || '0'}</td>
                         <td>${item.addedBy || 'Admin'}</td>
@@ -1225,7 +1225,8 @@
                         </td>
                     </tr>
                 `;
-            });            
+            });
+            
             table.innerHTML = tableHTML;
         }
 
