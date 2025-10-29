@@ -4,11 +4,135 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Staff Dashboard - Libas Inventory</title>
-    <link rel="stylesheet" href="style.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: #f5f5f5;
+            color: #333;
+        }
+        
         .dashboard {
             background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
+            min-height: 100vh;
             padding-bottom: 20px;
+        }
+        
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+        
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo-small {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: white;
+        }
+        
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .dashboard-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .welcome-message {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+        
+        .welcome-message h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .welcome-message p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .data-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .section-title {
+            color: white;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            font-size: 1.2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 6px;
+            background: white;
+            font-size: 1rem;
+            color: #333;
         }
         
         .mobile-form-container {
@@ -224,12 +348,15 @@
             background: rgba(255, 255, 255, 0.2);
             padding: 10px 8px;
             font-size: 0.7rem;
+            color: white;
+            text-align: left;
         }
         
         .stock-table-mobile td {
             padding: 8px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             vertical-align: top;
+            color: white;
         }
         
         .stock-image-mobile {
@@ -283,6 +410,10 @@
             border-radius: 12px;
             font-size: 0.7rem;
             margin-left: 8px;
+        }
+        
+        .data-table {
+            overflow-x: auto;
         }
     </style>
 </head>
@@ -383,7 +514,6 @@
     <input type="file" id="uploadInput" accept="image/*" style="display: none;">
     
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="app.js"></script>
     <script>
         // Initialize Particles
         particlesJS('particles-js', {
@@ -411,6 +541,9 @@
                 }
             }
         });
+
+         // 🔗 PASTE API URL RIGHT HERE - after particles initialization
+    const API_URL = "https://script.google.com/macros/s/AKfycbzrrws1AJUfNbfiBYwET8cLJwFVGNB8egnCkAJvYIjxZxtfDPbSAi0bE0Fb-duyPwPe/exec";
 
         let currentImageCardId = null;
         let cardCounter = 0;
@@ -660,46 +793,70 @@
             document.getElementById('entryCount').textContent = '0 items';
         }
         
-        // Form submission
-        document.getElementById('stockForm').addEventListener('submit', function(e) {
+                // Form submission
+        document.getElementById('stockForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            
+
             const entries = [];
             const cards = document.querySelectorAll('.form-card');
             let validEntries = 0;
-            
-            cards.forEach((card, index) => {
-                const name = card.querySelector('.item-name')?.value;
+
+            cards.forEach(card => {
+                const name = card.querySelector('.item-name')?.value?.trim();
                 const quantity = card.querySelector('.item-quantity')?.value;
-                const group = card.querySelector('.item-group')?.value;
-                const description = card.querySelector('.item-description')?.value;
-                const image = card.dataset.image;
-                
+                const group = card.querySelector('.item-group')?.value?.trim();
+                const description = card.querySelector('.item-description')?.value?.trim();
+                const image = card.dataset.image; // base64 data URL (if any)
+
                 if (name && quantity && group) {
                     validEntries++;
                     entries.push({
                         name: name.toUpperCase(),
                         quantity: parseInt(quantity),
                         group: group.toUpperCase(),
-                        description,
-                        image,
-                        date: document.getElementById('selectedDate').value
+                        description: description || '',
+                        image: image || '',
+                        // optional: staff name if you ever store it in sessionStorage
+                        staff: sessionStorage.getItem('currentUser') || 'STAFF'
                     });
                 }
             });
-            
+
             if (validEntries === 0) {
                 alert("❌ Please add at least one valid item!");
                 return;
             }
-            
-            alert(`✅ ${validEntries} stock entries saved successfully!\n\nAdmin will review and add purchase prices.`);
-            
-            // Reset form but keep one card
-            document.getElementById('formCardsContainer').innerHTML = '';
-            cardCounter = 0;
-            addNewCard();
-            updatePreview();
+
+            // The date field from the UI
+            const selectedDate = document.getElementById('selectedDate').value;
+
+            // Send to Google Apps Script
+            try {
+                const res = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        date: selectedDate,  // e.g. "2025-10-29"
+                        entries: entries
+                    })
+                });
+
+                const data = await res.json();
+
+                if (res.ok && data.ok) {
+                    alert(`✅ ${data.saved} stock entries saved to Google Sheet!`);
+                    // Reset the form like before (keep one empty card)
+                    document.getElementById('formCardsContainer').innerHTML = '';
+                    cardCounter = 0;
+                    addNewCard();
+                    updatePreview();
+                } else {
+                    alert("⚠️ Could not save. " + (data.error || "Unknown error"));
+                }
+            } catch (err) {
+                console.error(err);
+                alert("🚫 Network error while saving. Please check internet and try again.");
+            }
         });
         
         function logout() {
