@@ -406,4 +406,39 @@ window.libasUtils = {
         const i = Math.floor(Math.log(bytes) / Math.log(k));
         return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     }
+    function testGitHubConnection() {
+  const p = _getProps();
+  
+  console.log('Testing GitHub connection...');
+  console.log('Owner:', p.owner);
+  console.log('Repo:', p.repo);
+  console.log('Token length:', p.token ? p.token.length : 'MISSING');
+  
+  try {
+    // Test basic GitHub API connection
+    const url = `https://api.github.com/repos/${p.owner}/${p.repo}`;
+    const response = UrlFetchApp.fetch(url, {
+      headers: {
+        'Authorization': `token ${p.token}`,
+        'User-Agent': 'GoogleAppsScript'
+      },
+      muteHttpExceptions: true
+    });
+    
+    console.log('GitHub API response code:', response.getResponseCode());
+    console.log('GitHub API response:', response.getContentText());
+    
+    if (response.getResponseCode() === 200) {
+      console.log('✅ GitHub connection successful!');
+      return true;
+    } else {
+      console.log('❌ GitHub connection failed');
+      return false;
+    }
+    
+  } catch (error) {
+    console.error('GitHub connection error:', error.toString());
+    return false;
+  }
+}
 };
